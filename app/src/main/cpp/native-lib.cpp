@@ -11,9 +11,14 @@ Java_com_example_test_MainActivity_stringFromJNI(
     return env->NewStringUTF(hello.c_str());
 }
 
-JNICALL
 extern "C"
 JNIEXPORT jfloat JNICALL
-Java_com_example_test_MyView_getX(JNIEnv *env, jobject thiz, jfloat x, jfloat y) {
-    return x + y;
+Java_com_example_test_MyView_calculatePointXOfBall(JNIEnv *env, jobject thiz, jfloat y) {
+    // TODO: implement calculatePointXOfBall()
+}
+
+extern "C"
+JNIEXPORT jobject JNICALL
+Java_com_example_test_MyView_calculateNewConditionOfBall(JNIEnv *env, jobject thiz, jobject ball) {
+    // TODO: implement calculateNewConditionOfBall()
 }
