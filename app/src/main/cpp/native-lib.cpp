@@ -12,13 +12,11 @@ Java_com_example_test_MainActivity_stringFromJNI(
 }
 
 extern "C"
-JNIEXPORT jfloat JNICALL
-Java_com_example_test_MyView_calculatePointXOfBall(JNIEnv *env, jobject thiz, jfloat y) {
-    // TODO: implement calculatePointXOfBall()
-}
-
-extern "C"
 JNIEXPORT jobject JNICALL
 Java_com_example_test_MyView_calculateNewConditionOfBall(JNIEnv *env, jobject thiz, jobject ball) {
-    // TODO: implement calculateNewConditionOfBall()
+    jclass CppBall = env->GetObjectClass(ball);
+    jfieldID CppBallX = env->GetFieldID(CppBall, "x", "F");
+
+    env->SetFloatField(ball, CppBallX, env->GetFloatField(ball, CppBallX) + 2.0f);
+    return ball;
 }

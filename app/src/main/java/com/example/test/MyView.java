@@ -14,7 +14,6 @@ import java.util.List;
 
 public class MyView extends View {
 
-
     static {
         System.loadLibrary("test");
     }
@@ -62,7 +61,6 @@ public class MyView extends View {
         });
     }
 
-    native float calculatePointXOfBall(float y);
     native Ball calculateNewConditionOfBall(Ball ball);
 
 }

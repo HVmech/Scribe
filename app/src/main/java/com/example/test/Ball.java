@@ -26,8 +26,6 @@ public class Ball {
     p.setStyle(Paint.Style.STROKE);
     p.setColor(Color.BLUE);
 
-
-
     canvas.drawCircle(x, y, 50, p);
   }
 }
