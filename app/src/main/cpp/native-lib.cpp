@@ -20,3 +20,11 @@ Java_com_example_test_MyView_calculateNewConditionOfBall(JNIEnv *env, jobject th
     env->SetFloatField(ball, CppBallX, env->GetFloatField(ball, CppBallX) + 2.0f);
     return ball;
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+// this method get you actual height of view
+// And note, that for you was saved method stringFromJNI() for test output! Good luck!
+Java_com_example_test_MyView_setHeight(JNIEnv *env, jobject thiz, jfloat h) {
+    // TODO: implement setHeight()
+}

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        setListeners();
+        //setListeners();
     }
 
     /**

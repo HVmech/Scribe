@@ -15,11 +15,10 @@
 
     <TextView
         android:id="@+id/sampleText"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/red"
-        android:text="Hello World!"
+        android:background="@color/green"
         android:gravity="center"
         android:textSize="22sp"
         android:textStyle="bold" />

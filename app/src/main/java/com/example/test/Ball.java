@@ -1,5 +1,8 @@
 package com.example.test;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,12 +14,21 @@ public class Ball {
   float Vx;
   float Vy;
 
+  int ballSize = 150;
   boolean isAlive = false;
+
+  private Bitmap image;
+  private Bitmap ball;
 
   public Ball(float x, float y) {
     this.x = x;
     this.y = y;
     isAlive = true;
+  }
+
+  public Ball(float x, float y, Bitmap bitmap) {
+    this(x, y);
+    this.image = bitmap;
   }
 
   public void drawBall(Canvas canvas){
@@ -26,6 +38,7 @@ public class Ball {
     p.setStyle(Paint.Style.STROKE);
     p.setColor(Color.BLUE);
 
-    canvas.drawCircle(x, y, 50, p);
+    ball = Bitmap.createScaledBitmap(image, ballSize, ballSize, false);
+    canvas.drawBitmap(ball, x, y, p);
   }
 }

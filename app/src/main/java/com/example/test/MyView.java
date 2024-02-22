@@ -1,6 +1,9 @@
 package com.example.test;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +17,9 @@ import java.util.List;
 
 public class MyView extends View {
 
+    private Bitmap image;
+
+
     static {
         System.loadLibrary("test");
     }
@@ -21,6 +27,13 @@ public class MyView extends View {
     List<Ball> balls = new ArrayList<Ball>();
     public MyView(Context context, AttributeSet attrs){
         super(context, attrs);
+        image = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        setHeight(h);
     }
 
     @Override
@@ -34,10 +47,13 @@ public class MyView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Ball ball = new Ball(event.getX(), event.getY());
-        balls.add(ball);
-        startThreadOfBall(ball);
-        invalidate();
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            Ball ball = new Ball(event.getX(), event.getY(), image);
+            balls.add(ball);
+            startThreadOfBall(ball);
+            invalidate();
+        }
+
         return super.onTouchEvent(event);
     }
 
@@ -59,8 +75,10 @@ public class MyView extends View {
                 }
             }
         });
+        thread.start();
     }
 
     native Ball calculateNewConditionOfBall(Ball ball);
+    native void setHeight(float h);
 
 }
