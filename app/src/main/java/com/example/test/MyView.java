@@ -49,7 +49,7 @@ public class MyView extends View {
         paint.setColor(Color.BLUE);
         int sizeRect = 40;
         int xBorder = (getHeight()-sizeRect)/2;
-        int yBorder = getY(sizeRect);
+        int yBorder = 0;
         canvas.drawRect(xBorder, yBorder, xBorder + sizeRect, yBorder + sizeRect, paint );
     }
 

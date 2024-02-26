@@ -40,5 +40,7 @@ public class Ball {
 
     ball = Bitmap.createScaledBitmap(image, ballSize, ballSize, false);
     canvas.drawBitmap(ball, x, y, p);
+    canvas.drawRect(x, y, x+150, y+150, p);
+
   }
 }
