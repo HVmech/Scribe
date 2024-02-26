@@ -11,8 +11,8 @@ public class Ball {
   float x;
   float y;
 
-  float Vx;
-  float Vy;
+  float Vx = 5; // Example
+  float Vy = 5; // Example
 
   int ballSize = 150;
   boolean isAlive = false;
