@@ -43,6 +43,14 @@ public class MyView extends View {
         for(Ball ball : balls){
             ball.drawBall(canvas);
         }
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLUE);
+        int sizeRect = 40;
+        int xBorder = (getHeight()-sizeRect)/2;
+        int yBorder = getY(sizeRect);
+        canvas.drawRect(xBorder, yBorder, xBorder + sizeRect, yBorder + sizeRect, paint );
     }
 
     @Override
@@ -80,5 +88,6 @@ public class MyView extends View {
 
     native Ball calculateNewConditionOfBall(Ball ball);
     native void setHeight(float h);
+    native int getY(int sizeCircul);
 
 }
