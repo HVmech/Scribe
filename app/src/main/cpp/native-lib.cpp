@@ -48,5 +48,5 @@ Java_com_example_test_MyView_calculateNewConditionOfBall(JNIEnv *env, jobject th
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_example_test_MyView_getY(JNIEnv *env, jobject thiz, jint size_circul) {
-    return int(window.height);
+    return int(window.height - 150);
 }
