@@ -1,11 +1,44 @@
 #include <jni.h>
 #include <string>
 
-struct Hitbox {
+constexpr float v_loss = 0.4;
+constexpr float v_min = 1;
+constexpr float g = 1;
+
+struct borders {
     float height = 0;
+    // float width = 0;
 };
 
-Hitbox window;
+borders window;
+
+struct vect {
+    float lenght() {
+        return sqrt(x * x + y * y);
+    }
+
+    void normal() {
+        x = x / this->lenght();
+        y = y / this->lenght();
+    }
+
+    float dot(vect& v) {
+        return x * v.x + y * v.y;
+    }
+
+    void reflection(vect n) {
+        //n.normal();
+        x = - 2 * n.x * this->dot(n) / n.dot(n) + x;
+        y = - 2 * n.y * this->dot(n) / n.dot(n) + y;
+    }
+
+    void collision(float loss_percent, float min_req) {
+        x = x * loss_percent > min_req ? x * loss_percent : 0;
+        y = y * loss_percent > min_req ? y * loss_percent : 0;
+    }
+
+    float x, y;
+};
 
 extern "C" JNIEXPORT jstring
 
@@ -19,8 +52,6 @@ Java_com_example_test_MainActivity_stringFromJNI(
 
 extern "C"
 JNIEXPORT void JNICALL
-// this method get you actual height of view
-// And note, that for you was saved method stringFromJNI() for test output! Good luck!
 Java_com_example_test_MyView_setHeight(JNIEnv *env, jobject thiz, jfloat h) {
     window.height = h;
 }
@@ -28,25 +59,29 @@ Java_com_example_test_MyView_setHeight(JNIEnv *env, jobject thiz, jfloat h) {
 extern "C"
 JNIEXPORT jobject JNICALL
 Java_com_example_test_MyView_calculateNewConditionOfBall(JNIEnv *env, jobject thiz, jobject ball) {
-    jclass CppBall = env->GetObjectClass(ball);
-    jfieldID CppBallY = env->GetFieldID(CppBall, "y", "F");
-    jfieldID CppBallVy = env->GetFieldID(CppBall, "Vy", "F");
-    jfieldID CppBallSize = env->GetFieldID(CppBall, "ballSize", "I");
+    jclass cpp_ball = env->GetObjectClass(ball);
+    jfieldID y = env->GetFieldID(cpp_ball, "y", "F");
+    jfieldID vy = env->GetFieldID(cpp_ball, "Vy", "F");
+    jfieldID vx = env->GetFieldID(cpp_ball, "Vx", "F");
+    jfieldID size = env->GetFieldID(cpp_ball, "ballSize", "I");
 
-    if(env->GetFloatField(ball, CppBallY) > window.height - env->GetIntField(ball, CppBallSize) && env->GetFloatField(ball, CppBallVy) > 0) {
-            env->SetFloatField(ball, CppBallVy, -(env->GetFloatField(ball, CppBallVy)));
+    if(env->GetFloatField(ball, y) > window.height - env->GetIntField(ball, size) && env->GetFloatField(ball, vy) > 0 || env->GetFloatField(ball, y) < 0 && env->GetFloatField(ball, vy) < 0) {
+        vect t {env->GetFloatField(ball, vx), env->GetFloatField(ball, vy)};
+        t.collision(v_loss, v_min);
+        t.reflection({0, window.height});
+        env->SetFloatField(ball, vy, t.y);
     }
-    else {
-        if(env->GetFloatField(ball, CppBallY) < 0 && env->GetFloatField(ball, CppBallVy) < 0) {
-            env->SetFloatField(ball, CppBallVy, -(env->GetFloatField(ball, CppBallVy)));
-        }
+    if(env->GetFloatField(ball, vy) < 0 || env->GetFloatField(ball, y) < window.height - env->GetIntField(ball, size)) {
+        env->SetFloatField(ball, vy, env->GetFloatField(ball, vy) + g/2);
     }
-    env->SetFloatField(ball, CppBallY, env->GetFloatField(ball, CppBallY) + env->GetFloatField(ball, CppBallVy));
+    env->SetFloatField(ball, y, env->GetFloatField(ball, y) + env->GetFloatField(ball, vy));
     return ball;
 }
 
+/* TODO: Delete
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_example_test_MyView_getY(JNIEnv *env, jobject thiz, jint size_circul) {
     return int(window.height - size_circul);
 }
+*/

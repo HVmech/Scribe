@@ -19,7 +19,6 @@ public class MyView extends View {
 
     private Bitmap image;
 
-
     static {
         System.loadLibrary("test");
     }
@@ -34,6 +33,9 @@ public class MyView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         setHeight(h);
+
+        // TODO: Call function
+        // setWidth(w);
     }
 
     @Override
@@ -44,6 +46,7 @@ public class MyView extends View {
             ball.drawBall(canvas);
         }
 
+        /* TODO: Delete
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLUE);
@@ -51,6 +54,7 @@ public class MyView extends View {
         int xBorder = (getHeight()-sizeRect)/2;
         int yBorder = 0;
         canvas.drawRect(xBorder, yBorder, xBorder + sizeRect, yBorder + sizeRect, paint );
+         */
     }
 
     @Override
@@ -88,6 +92,11 @@ public class MyView extends View {
 
     native Ball calculateNewConditionOfBall(Ball ball);
     native void setHeight(float h);
-    native int getY(int sizeCircul);
+
+    // TODO: Declare
+    // native void setWidth(float w);
+
+    // TODO: Delete
+    // native int getY(int sizeCircul);
 
 }
