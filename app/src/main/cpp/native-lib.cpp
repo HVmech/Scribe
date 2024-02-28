@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <string>
 
-constexpr float v_loss = 0.4;
+constexpr float v_loss = 0.2;
 constexpr float v_min = 1;
 constexpr float g = 1;
 
@@ -33,8 +33,8 @@ struct vect {
     }
 
     void collision(float loss_percent, float min_req) {
-        x = x * loss_percent > min_req ? x * loss_percent : 0;
-        y = y * loss_percent > min_req ? y * loss_percent : 0;
+        x = x * (1 - loss_percent) > min_req ? x * (1 - loss_percent) : 0;
+        y = y * (1 - loss_percent) > min_req ? y * (1 - loss_percent) : 0;
     }
 
     float x, y;
